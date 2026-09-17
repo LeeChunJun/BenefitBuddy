@@ -2,12 +2,13 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView {
+            PunchListView()
+                .tabItem { Label("列表", systemImage: "list.bullet") }
+            StatsView()
+                .tabItem { Label("统计", systemImage: "chart.bar") }
+            AddPunchView()
+                .tabItem { Label("添加", systemImage: "plus") }
         }
-        .padding()
     }
 }
