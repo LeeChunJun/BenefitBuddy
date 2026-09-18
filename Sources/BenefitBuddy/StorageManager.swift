@@ -1,5 +1,6 @@
 import Foundation
 
+@MainActor
 final class StorageManager: ObservableObject {
     static let shared = StorageManager()
     private let userDefaultsKey = "punchEntries"
