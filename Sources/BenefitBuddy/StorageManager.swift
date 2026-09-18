@@ -1,7 +1,7 @@
 import Foundation
 
-final class StorageManager: ObservableObject {
-    nonisolated(unsafe) static let shared = StorageManager()
+final class StorageManager: ObservableObject, @unchecked Sendable {
+    static let shared = StorageManager()
     private let userDefaultsKey = "punchEntries"
 
     @Published private(set) var entries: [PunchEntry] = []
