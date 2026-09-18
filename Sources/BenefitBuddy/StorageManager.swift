@@ -1,34 +1,35 @@
 import Foundation
 
-class StorageManager {
+final class StorageManager: ObservableObject {
     static let shared = StorageManager()
     private let userDefaultsKey = "punchEntries"
 
-    private init() {}
+    @Published private(set) var entries: [PunchEntry] = []
 
-    func load() -> [PunchEntry] {
-        guard let data = UserDefaults.standard.data(forKey: userDefaultsKey),
-              let entries = try? JSONDecoder().decode([PunchEntry].self, from: data) else {
-            return []
-        }
-        return entries
-    }
-
-    func save(_ entries: [PunchEntry]) {
-        if let data = try? JSONEncoder().encode(entries) {
-            UserDefaults.standard.set(data, forKey: userDefaultsKey)
-        }
+    private init() {
+        entries = loadFromDisk()
     }
 
     func add(_ entry: PunchEntry) {
-        var entries = load()
         entries.append(entry)
-        save(entries)
+        persist()
     }
 
     func delete(at offsets: IndexSet) {
-        var entries = load()
         entries.remove(atOffsets: offsets)
-        save(entries)
+        persist()
+    }
+
+    private func loadFromDisk() -> [PunchEntry] {
+        guard let data = UserDefaults.standard.data(forKey: userDefaultsKey),
+              let decoded = try? JSONDecoder().decode([PunchEntry].self, from: data) else {
+            return []
+        }
+        return decoded
+    }
+
+    private func persist() {
+        guard let data = try? JSONEncoder().encode(entries) else { return }
+        UserDefaults.standard.set(data, forKey: userDefaultsKey)
     }
 }

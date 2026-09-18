@@ -5,7 +5,7 @@ struct StatsView: View {
     @StateObject private var storage = StorageManager.shared
 
     private var entries: [PunchEntry] {
-        storage.load()
+        storage.entries
     }
 
     private var totalCount: Int {

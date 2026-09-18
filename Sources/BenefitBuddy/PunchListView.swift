@@ -7,12 +7,12 @@ struct PunchListView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(storage.load()) { entry in
+                ForEach(storage.entries) { entry in
                     VStack(alignment: .leading) {
                         Text(entry.type)
                             .font(.headline)
                         Text(entry.date, style: .date)
-                            .font(.subheader)
+                            .font(.subheadline)
                             .foregroundColor(.secondary)
                         if let note = entry.note, !note.isEmpty {
                             Text(note)
